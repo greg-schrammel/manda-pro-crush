@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/4.13.0/bodymovin.js"></script>
+</head>
+
+<body>
+  <div id="container"></div>
+</body>
+
+<script>
+  const container = document.getElementById('container')
+
+  const animData = {
+    container: container,
+    renderer: 'svg',
+    autoplay: false,
+    loop: false,
+    path: './assets/data.json'
+  }
+  const anim = bodymovin.loadAnimation( animData )
+  
+  anim.addEventListener( 'data_ready', () => 
+    anim.playSegments( [0,10], true )
+  )
+
+  function* animSegments() {
+    yield anim.playSegments( [ 10, 20 ], true )
+    yield anim.playSegments( [ 20, 90 ], true )
+  }
+
+  container.addEventListener( 'click', animSegments().next.bind( animSegments() )  )
+
+</script>
+
+</html>
